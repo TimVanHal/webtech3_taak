@@ -6,6 +6,7 @@
 			<th>E-mail</th>
 			<th>Date</th>
 			<th>Message</th>
+			<th>Top 10 files</th>
 		</tr>
 		
 		{% for com in data %}
@@ -15,6 +16,7 @@
 				<td>{{ com.email }}</td>
 				<td>{{ com.date }}</td>
 				<td>{{ com.message }}</td>
+				<td><a href="../detail/{{ com.repo }}">Click!</a></td>
 			</tr>
 		{% endfor %}
 	</table>

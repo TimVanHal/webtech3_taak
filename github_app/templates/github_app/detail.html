@@ -12,6 +12,15 @@
 			</tr>
 		{% endfor %}
 	</table>
+	<br>
+	Click <a href="" onclick="goBack()">here</a> to go back.
+	
+	<script>
+		function goBack(){
+			window.history.back();
+		}
+	</script>
+	
 {% else %}
 	No data found! Enter repositories <a href="{% url 'github_app.views.index' %}">here</a>!
 {% endif %}

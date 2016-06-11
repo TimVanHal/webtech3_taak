@@ -2,11 +2,12 @@ from django.shortcuts import render
 import urllib2, json
 
 base_url = 'https://api.github.com/repos/'
+auth = '?client_id=db755be5ca0c733d4e26&client_secret=0ba906013f2752490a6839718fdbe41f58912927'
 
 def get_commits(repo):
 	data = {}
 	commit_list = []
-	get_url = base_url + repo + '/commits'
+	get_url = base_url + repo + '/commits' + auth
 	response = urllib2.urlopen(get_url)
 	data = json.load(response)
 	for commit in data:
@@ -24,7 +25,7 @@ def get_commits(repo):
 def get_files(repo, sha):
 	data = {}
 	file_list = []
-	get_url = base_url + repo + '/commits/' + sha
+	get_url = base_url + repo + '/commits/' + sha + auth
 	response = urllib2.urlopen(get_url)
 	data = json.load(response)
 	files = data['files']
@@ -80,7 +81,7 @@ def list(request):
 		return render(request, 'github_app/list.html', {'data' : commits})
 	return render(request, 'github_app/list.html')
 
-def detail(request):
-	repo = 'TimVanHal/webtech3_taak'
+def detail(request, user, rep):
+	repo = user + '/' + rep
 	top = get_top_ten(repo)
 	return render(request, 'github_app/detail.html', {'files' : top})
