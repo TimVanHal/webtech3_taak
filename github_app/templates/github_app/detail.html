@@ -1,0 +1,17 @@
+{% if files %}
+	<table>
+		<tr>
+			<th>Filename</th>
+			<th>Amount of changes</th>
+		</tr>
+		
+		{% for file in files %}
+			<tr>
+				<td>{{ file.name }}</td>
+				<td>{{ file.count }}</td>
+			</tr>
+		{% endfor %}
+	</table>
+{% else %}
+	No data found! Enter repositories <a href="{% url 'github_app.views.index' %}">here</a>!
+{% endif %}
