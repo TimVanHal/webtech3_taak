@@ -1,0 +1,10 @@
+<form action="list/" method="POST">
+	{% csrf_token %}
+	<label for="list">List of repositories:</label>
+	<br>
+	(One repository per line, format user/project. Example: TimVanHal/webtech3_taak)
+	<br>
+	<textarea name="list" rows="15" cols="50"></textarea>
+	<br><br>
+	<input type="submit" value="Submit!">
+</form>

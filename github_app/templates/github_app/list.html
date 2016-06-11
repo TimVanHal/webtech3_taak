@@ -1,0 +1,23 @@
+{% if data %}
+	<table>
+		<tr>
+			<th>Repository</th>
+			<th>Commit by</th>
+			<th>E-mail</th>
+			<th>Date</th>
+			<th>Message</th>
+		</tr>
+		
+		{% for com in data %}
+			<tr>
+				<td>{{ com.repo }}</td>
+				<td>{{ com.name }}</td>
+				<td>{{ com.email }}</td>
+				<td>{{ com.date }}</td>
+				<td>{{ com.message }}</td>
+			</tr>
+		{% endfor %}
+	</table>
+{% else %}
+	No data found! Enter repositories <a href="{% url 'github_app.views.index' %}">here</a>!
+{% endif %}
