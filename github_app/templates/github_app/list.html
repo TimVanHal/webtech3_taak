@@ -1,25 +1,37 @@
+<head>
+	<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+</head>
+<body>
 {% if data %}
-	<table>
-		<tr>
-			<th>Repository</th>
-			<th>Commit by</th>
-			<th>E-mail</th>
-			<th>Date</th>
-			<th>Message</th>
-			<th>Top 10 files</th>
-		</tr>
-		
+	<table class="table table-bordered table-hover">
+		<thead>
+			<tr>
+				<th>Repository</th>
+				<th>Commit by</th>
+				<th>E-mail</th>
+				<th>Date</th>
+				<th>Message</th>
+				<th>Top 10 files</th>
+			</tr>
+		</thead>
+		<tbody>
 		{% for com in data %}
 			<tr>
 				<td>{{ com.repo }}</td>
 				<td>{{ com.name }}</td>
 				<td>{{ com.email }}</td>
 				<td>{{ com.date }}</td>
-				<td>{{ com.message }}</td>
+				<td>{{ com.summary }}
+					{% if com.description %}
+						<br><i style="font-size: 12px">{{ com.description }}</i>
+					{% endif %}
+				</td>
 				<td><a href="../detail/{{ com.repo }}">Click!</a></td>
 			</tr>
 		{% endfor %}
+		</tbody>
 	</table>
 {% else %}
 	No data found! Enter repositories <a href="{% url 'github_app.views.index' %}">here</a>!
 {% endif %}
+</body>

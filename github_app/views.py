@@ -18,7 +18,10 @@ def get_commits(repo):
 		com['date'] = committer['date']
 		com['name'] = committer['name']
 		com['email'] = committer['email']
-		com['message'] = commit['commit']['message']
+		message = commit['commit']['message'].split('\n\n')
+		com['summary'] = message[0]
+		if len(message) > 1:
+			com['description'] = message[1]
 		com['sha'] = commit['sha']
 		commit_list.append(com)
 	return commit_list

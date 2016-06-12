@@ -1,16 +1,23 @@
+<head>
+	<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+</head>
+<body>
 {% if files %}
-	<table>
-		<tr>
-			<th>Filename</th>
-			<th>Amount of changes</th>
-		</tr>
-		
+	<table class="table table-bordered table-hover">
+		<thead>
+			<tr>
+				<th>Filename</th>
+				<th>Amount of changes</th>
+			</tr>
+		</thead>
+		<tbody>
 		{% for file in files %}
 			<tr>
 				<td>{{ file.name }}</td>
 				<td>{{ file.count }}</td>
 			</tr>
 		{% endfor %}
+		</tbody>
 	</table>
 	<br>
 	Click <a href="" onclick="goBack()">here</a> to go back.
@@ -24,3 +31,4 @@
 {% else %}
 	No data found! Enter repositories <a href="{% url 'github_app.views.index' %}">here</a>!
 {% endif %}
+</body>
