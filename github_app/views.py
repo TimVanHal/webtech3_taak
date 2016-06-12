@@ -1,7 +1,8 @@
 from django.shortcuts import render
-import urllib2, json
+import urllib2, json, urllib, os, zipfile, shutil
 
 base_url = 'https://api.github.com/repos/'
+basedir = "C:\github_app\download\\"
 auth = '?client_id=db755be5ca0c733d4e26&client_secret=0ba906013f2752490a6839718fdbe41f58912927'
 
 def get_commits(repo):
@@ -65,6 +66,39 @@ def count_commits(files):
 			listed_file['count'] += 1
 	return changelist
 
+def download(repository):
+	get_url = base_url + repository + '/zipball/master' + auth
+	[user, rep] = repository.split('/')
+	filename = basedir + user + '\\' + rep + '.zip'
+	response = urllib.urlretrieve(get_url, filename)
+	extract_dir = basedir + user + '\\' + rep
+	if not os.path.exists(extract_dir):
+		os.makedirs(extract_dir)
+	else: #folder bestaat al, eerst oude versie verwijderen, vooraleer nieuwe versie upzippen
+		for file in os.listdir(extract_dir):
+			file_path = os.path.join(extract_dir, file)
+			try:
+				if os.path.isfile(file_path):
+					os.unlink(file_path)
+				elif os.path.isdir(file_path):
+					shutil.rmtree(file_path)
+			except Exception as e:
+				print(e)
+	zip = zipfile.ZipFile(filename, 'r')
+	zip.extractall(extract_dir)
+	zip.close()
+
+def create_dirs(user):
+	app_dir = 'C:\github_app'
+	dl_dir = app_dir + '\download'
+	user_dir = dl_dir + '\\' + user
+	if not os.path.exists(app_dir):
+		os.makedirs(app_dir)
+	if not os.path.exists(dl_dir):
+		os.makedirs(dl_dir)
+	if not os.path.exists(user_dir):
+		os.makedirs(user_dir)
+
 # Create your views here.
 def index(request):
 	return render(request, 'github_app/index.html')
@@ -75,6 +109,9 @@ def list(request):
 		list = request.POST.get('list')
 		get_list = list.split('\r\n')
 		for repo in get_list:
+			user = repo.split('/')[0]
+			create_dirs(user)
+			download(repo)
 			repo_commits = get_commits(repo)
 			for com in repo_commits:
 				commits.append(com)
